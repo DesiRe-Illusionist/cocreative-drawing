@@ -36,9 +36,9 @@
 		<div class="row">
 			<div class="col-lg-2">
 				<div class="controls">
-					<h1>Player 1</h1>
+					<h1>Player</h1>
 					<br /><br />
-					<button id="player1" disabled class="draw-button" onclick="playerClick(this)">DRAW</button>
+					<button id="player1" class="draw-button" onclick="finishTurn(this)">Finish Turn</button>
 					<br /><br />
 					<div class="settings" id="setting1">
 						<input type="range" min="01" max="50" value="20" id="myRange1" onchange="setRadius(this)">
@@ -58,28 +58,6 @@
 			</div>
 			<div class="col-lg-8">
 				<div id="canvas">
-				</div>
-			</div>
-			<div class="col-lg-2">
-				<div class="controls">
-					<h1>Player 2</h1>
-					<br /><br />
-					<button id="player2" class="draw-button" onclick="playerClick(this)">DRAW</button>
-					<br /><br />
-					<div class="settings hide" id="setting2">
-						<input type="range" min="01" max="50" value="20" id="myRange2" onchange="setRadius(this)">
-
-						<br /><br />
-						<button onclick="colButtonClick2(this)" class="colorButton" id="red"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="green"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="blue"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="cyan"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="magenta"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="yellow"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton active" id="black"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="grey"></button>
-						<button onclick="colButtonClick2(this)" class="colorButton" id="white"></button>
-					</div>
 				</div>
 			</div>
 		</div>

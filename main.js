@@ -1,26 +1,13 @@
-playerClick = a => {
-  let player = a.id;
+// playerClick = a => {
 
-  if (player == "player1") {
-    changeColor(color(255, 0, 0, 150));
-    $('#player1').attr('disabled', true);
-    $('#player2').attr('disabled', false);
-    $('.settings').toggleClass('hide');
+//   changeColor(color(255, 0, 0, 150));
+//   $('#player1').attr('disabled', true);
+//   $('.settings').toggleClass('hide');
 
-    currentSetting.col = convertStringtoColor($('#setting1 .active')[0].id);
+//   currentSetting.col = convertStringtoColor($('#setting1 .active')[0].id);
 
-    setRadius('#myRange1');
-  } else if (player == "player2") {
-    changeColor(color(0, 255, 0, 150));
-    $('#player1').attr('disabled', false);
-    $('#player2').attr('disabled', true);
-    $('.settings').toggleClass('hide');
-
-    currentSetting.col = convertStringtoColor($('#setting2 .active')[0].id);
-
-    setRadius('#myRange2');
-  }
-}
+//   setRadius('#myRange1');
+// }
 
 setRadius = (item) => {
   currentSetting.size = $(item)[0].value;
@@ -28,13 +15,6 @@ setRadius = (item) => {
 
 colButtonClick1 = (item) => {
   $('#setting1 .colorButton').removeClass('active');
-  $(item).addClass('active');
-
-  currentSetting.col = convertStringtoColor(item.id);
-}
-
-colButtonClick2 = (item) => {
-  $('#setting2 .colorButton').removeClass('active');
   $(item).addClass('active');
 
   currentSetting.col = convertStringtoColor(item.id);
