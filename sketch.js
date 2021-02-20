@@ -93,7 +93,8 @@ finishTurn = () => {
 	// 		aiTurn = response.data;
 	// 	});
 	
-	//defaultCanvas0 is the actual Canvas id	
+
+	//1.get canvas data: defaultCanvas0 is the actual Canvas id	
 	let getCanvas=document.getElementById("defaultCanvas0");
 	let canvasimg;
 	if(getCanvas)
@@ -101,6 +102,7 @@ finishTurn = () => {
 		canvasimg=getCanvas.toDataURL("image/png");
 	}
 
+	//2.model request
 	const model = new rw.HostedModel({
 		url: "https://spade-coco-357d9ca4.hosted-models.runwayml.cloud/v1/",
 		token: "nryMnMAdZutcSE91fgzo9w==",
@@ -110,7 +112,8 @@ finishTurn = () => {
 	};
 	model.query(inputs).then(outputs => {
 	    const { output } = outputs;
-		// use the outputs in your project
+		
+		//3. print output to screen
 		let image = new Image();
 		image.src = output;
 		let img_location=document.getElementById("img_output");

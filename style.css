@@ -40,7 +40,9 @@
   display: inline-block;
   margin-top: 10px;
   opacity: 0.25;
-  color:black;
+  color:white;
+  font-size: 6px;
+  text-shadow: black 1px 1px;
 }
 #sea{
   background-color: #363ea7;
@@ -49,10 +51,15 @@
 {
   background-color:#aeaac8;
 }
+#stone
+{
+  background-color:#db877e;
+}
+/*
 #blue {
   background-color: rgb(0, 0, 255);
 }
-/*
+
 #red {
   background-color: rgb(255, 0, 0);
 }

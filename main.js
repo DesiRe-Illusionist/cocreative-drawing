@@ -28,8 +28,8 @@ convertStringtoColor = colorName => {
     case 'road':
       return color(174,170,200,150);
       break;
-    case 'blue':
-      return color(0, 0, 255, 150);
+    case 'stone':
+      return color(219,135,126,150);
       break;
     case 'cyan':
       return color(0, 255, 255, 150);
