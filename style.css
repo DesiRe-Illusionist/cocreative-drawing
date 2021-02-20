@@ -40,12 +40,19 @@
   display: inline-block;
   margin-top: 10px;
   opacity: 0.25;
+  color:black;
 }
-
+#sea{
+  background-color: #363ea7;
+}
+#road
+{
+  background-color:#aeaac8;
+}
 #blue {
   background-color: rgb(0, 0, 255);
 }
-
+/*
 #red {
   background-color: rgb(255, 0, 0);
 }
@@ -53,7 +60,7 @@
 #green {
   background-color: rgb(0, 255, 0);
 }
-
+*/
 #cyan {
   background-color: rgb(0, 255, 255);
 }
@@ -86,4 +93,10 @@
 
 .hide {
   opacity: 0;
+}
+
+#img_output{
+  border:black 1px solid;
+  height: 600px;
+  width:600px;
 }

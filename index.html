@@ -25,6 +25,9 @@
 	</script>
 
 	<title>2player</title>
+	
+	<!--model-->
+	<script src="https://cdn.jsdelivr.net/npm/@runwayml/hosted-models@latest/dist/hosted-models.js"></script>
 
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 	<script src="sketch.js"></script>
@@ -44,8 +47,8 @@
 						<input type="range" min="01" max="50" value="20" id="myRange1" onchange="setRadius(this)">
 
 						<br /><br />
-						<button onclick="colButtonClick1(this)" class="colorButton" id="red"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="green"></button>
+						<button onclick="colButtonClick1(this)" class="colorButton" id="sea">sea</button>
+						<button onclick="colButtonClick1(this)" class="colorButton" id="road">road</button>
 						<button onclick="colButtonClick1(this)" class="colorButton" id="blue"></button>
 						<button onclick="colButtonClick1(this)" class="colorButton" id="cyan"></button>
 						<button onclick="colButtonClick1(this)" class="colorButton" id="magenta"></button>
@@ -59,6 +62,14 @@
 			<div class="col-lg-8">
 				<div id="canvas">
 				</div>
+			</div>
+		</div>
+
+		<!--img output-->
+		<div class="row">
+			output
+			<div id="img_output">
+
 			</div>
 		</div>
 	</div>

@@ -85,13 +85,42 @@ finishTurn = () => {
 		"height" : height
 	}
 
-	httpPost(
-		"http://127.0.0.1:8000/draw", 
-		"json", 
-		postData,
-		(response) => {
-			aiTurn = response.data;
-		});
+	// httpPost(
+	// 	"http://127.0.0.1:8000/draw", 
+	// 	"json", 
+	// 	postData,
+	// 	(response) => {
+	// 		aiTurn = response.data;
+	// 	});
+	
+	//defaultCanvas0 is the actual Canvas id	
+	let getCanvas=document.getElementById("defaultCanvas0");
+	let canvasimg;
+	if(getCanvas)
+	{
+		canvasimg=getCanvas.toDataURL("image/png");
+	}
+
+	const model = new rw.HostedModel({
+		url: "https://spade-coco-357d9ca4.hosted-models.runwayml.cloud/v1/",
+		token: "nryMnMAdZutcSE91fgzo9w==",
+	});
+	const inputs = {
+	     "semantic_map": canvasimg
+	};
+	model.query(inputs).then(outputs => {
+	    const { output } = outputs;
+		// use the outputs in your project
+		let image = new Image();
+		image.src = output;
+		let img_location=document.getElementById("img_output");
+		img_location.innerHTML="";
+		image.style.width="600px";
+		image.style.height="600px";
+		img_location.appendChild(image);
+
+	});
+	
   }
 
 changeColor = newCol => {

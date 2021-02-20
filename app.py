@@ -9,7 +9,6 @@ def reactToDraw():
   strokes = request.get_json().get("data")
   width = request.get_json().get("width")
   height = request.get_json().get("height")
-
   responseTurn = []
   for stroke in strokes:
     responseStroke = []
@@ -22,4 +21,4 @@ def reactToDraw():
   return json.dumps({"data": responseTurn})
 
 if __name__ == '__main__':
-    api.run()
+    api.run(port=8000)
