@@ -31,23 +31,23 @@ convertStringtoColor = colorName => {
     case 'stone':
       return color(219,135,126,150);
       break;
-    case 'cyan':
-      return color(0, 255, 255, 150);
+    case 'tree':
+      return color(140, 104, 47, 150);
       break;
-    case 'magenta':
-      return color(255, 0, 255, 150);;
+    case 'grass':
+      return color(29, 195, 49, 150);;
       break;
-    case 'yellow':
-      return color(255, 255, 0, 150);
+    case 'sky':
+      return color(95, 219, 255, 150);
       break;
     case 'black':
       return color(0, 0, 0, 150);
       break;
-    case 'grey':
-      return color(127, 127, 127, 150);
+    case 'house':
+      return color(105, 0, 247, 150);
       break;
-    case 'white':
-      return color(255, 255, 255, 150);
+    case 'mountain':
+      return color(60, 55, 50, 150);
       break;
   }
 }

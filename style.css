@@ -55,6 +55,26 @@
 {
   background-color:#db877e;
 }
+#tree
+{
+  background-color: #8c682f;
+}
+#grass
+{
+  background-color: #1dc331;
+}
+#sky
+{
+  background-color: #5fdbff;
+}
+#house
+{
+  background-color: #6900f7;
+}
+#mountain
+{
+  background-color: #3c3732;
+}
 /*
 #blue {
   background-color: rgb(0, 0, 255);
@@ -67,7 +87,7 @@
 #green {
   background-color: rgb(0, 255, 0);
 }
-*/
+
 #cyan {
   background-color: rgb(0, 255, 255);
 }
@@ -79,7 +99,7 @@
 #yellow {
   background-color: rgb(255, 255, 0);
 }
-
+*/
 #black {
   background-color: rgb(0, 0, 0);
 }
