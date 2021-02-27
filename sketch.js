@@ -103,6 +103,7 @@ finishTurn = () => {
 	}
 
 	//2.model request
+	//Spade-Coco
 	const model = new rw.HostedModel({
 		url: "https://spade-coco-357d9ca4.hosted-models.runwayml.cloud/v1/",
 		token: "nryMnMAdZutcSE91fgzo9w==",
@@ -123,7 +124,27 @@ finishTurn = () => {
 		img_location.appendChild(image);
 
 	});
-	
+
+	//Picasso
+	// const model = new rw.HostedModel({
+	// 	url: "https://picasso-9af97d53.hosted-models.runwayml.cloud/v1/",
+	// 	token: "O9czDzqI4Sdu1xmA5UHrCQ==",
+	//   });
+	//   const inputs = {
+	// 	"contentImage": canvasimg
+	//   };
+	//   model.query(inputs).then(outputs => {
+	// 	const { stylizedImage } = outputs;
+	// 	// use the outputs in your project
+
+	// 	let image = new Image();
+	// 	image.src = stylizedImage;
+	// 	let img_location=document.getElementById("img_output");
+	// 	img_location.innerHTML="";
+	// 	image.style.width="600px";
+	// 	image.style.height="600px";
+	// 	img_location.appendChild(image);
+	//   });
   }
 
 changeColor = newCol => {
