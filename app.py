@@ -22,4 +22,4 @@ def reactToDraw():
   return json.dumps({"data": responseTurn})
 
 if __name__ == '__main__':
-    api.run()
+    api.run(port=8000)

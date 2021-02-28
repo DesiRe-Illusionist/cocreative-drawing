@@ -24,10 +24,15 @@
 		integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
 	</script>
 
+	<!--for Runway Model-->
+	<!-- include this in your HTML file -->
+	<script src="https://cdn.jsdelivr.net/npm/@runwayml/hosted-models@latest/dist/hosted-models.js"></script>
+
 	<title>2player</title>
 
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
 	<script src="sketch.js"></script>
+	<script src="download.js"></script>
 	<script src="main.js"></script>
 </head>
 
@@ -53,6 +58,18 @@
 						<button onclick="colButtonClick1(this)" class="colorButton active" id="black"></button>
 						<button onclick="colButtonClick1(this)" class="colorButton" id="grey"></button>
 						<button onclick="colButtonClick1(this)" class="colorButton" id="white"></button>
+					</div>
+					<br/><br/>
+					<div class="download-options">
+						Choose a style:<br/>
+						<select id="style-select">
+							<option value ="origin">Origin</option>
+							<option value ="picasso">Picasso</option>
+						</select>
+						<br/>
+						<button href="#" id="download" onclick="downloadImage(this)">Save as Image</button>
+						<br/>
+						<div id="hint-message"></div>
 					</div>
 				</div>
 			</div>
