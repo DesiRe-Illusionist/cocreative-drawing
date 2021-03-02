@@ -24,9 +24,12 @@
 		integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous">
 	</script>
 
-	<title>2player</title>
+	<title>SketchRNN</title>
 
 	<script src="https://cdn.jsdelivr.net/npm/p5@1.2.0/lib/p5.js"></script>
+	<script src="https://unpkg.com/ml5@latest/dist/ml5.min.js"></script>
+
+	<script src="rdp.js"></script>
 	<script src="sketch.js"></script>
 	<script src="main.js"></script>
 </head>
@@ -41,7 +44,7 @@
 					<button id="player1" class="draw-button" onclick="finishTurn(this)">Finish Turn</button>
 					<br /><br />
 					<div class="settings" id="setting1">
-						<input type="range" min="01" max="50" value="20" id="myRange1" onchange="setRadius(this)">
+						<input type="range" min="01" max="10" value="2" id="myRange1" onchange="setRadius(this)">
 
 						<br /><br />
 						<button onclick="colButtonClick1(this)" class="colorButton" id="red"></button>
