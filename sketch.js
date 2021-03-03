@@ -2,10 +2,17 @@ let button;
 let curTurn;
 let curStroke;
 let aiTurn;
+let txtDiv;
+let corner;
+
 
 function setup() {
 	let myCanvas = createCanvas(600, 600);
 	myCanvas.parent("canvas");
+	corner=myCanvas.position();
+
+	console.log(corner);
+	console.log(corner.x, corner.y);
 
 	button = createButton('CLEAR');
 	button.center();
@@ -49,13 +56,23 @@ function draw() {
 		for (var i = 0; i < aiTurn.length; i++) {
 			if (aiTurn[i].length > 1) {
 				for (var j = 1; j < aiTurn[i].length; j++) {
-					console.log(aiTurn[i][j-1][0].toString(), aiTurn[i][j-1][1].toString(), aiTurn[i][j][0].toString(), aiTurn[i][j][1].toString())
+				//	console.log(aiTurn[i][j-1][0].toString(), aiTurn[i][j-1][1].toString(), aiTurn[i][j][0].toString(), aiTurn[i][j][1].toString())
 					line(aiTurn[i][j-1][0], aiTurn[i][j-1][1], aiTurn[i][j][0], aiTurn[i][j][1])
 				}
 			}
 		}
 
 		aiTurn = [];
+		curTurn=[];
+		textSize(24);
+		fill(0);
+		strokeWeight(0);
+		console.log(transformation);
+		txtDiv = createDiv(transformation);
+		txtDiv.parent("canvas");
+		txtDiv.position(corner.x + 10, corner.y - 30);
+		txtDiv.style('font=size','24px');
+		txtDiv.style('color','black');
 	}
 }
 
@@ -64,6 +81,10 @@ function mouseReleased() {
 		curTurn.push(curStroke);
 		curStroke = [];
 	}
+	//if (document.getElementById('txtDiv')) {
+	//	txtDiv.remove();
+	//}
+	txtDiv.remove();
 }
 
 function isInsideCanvas(x, y) {
@@ -75,8 +96,7 @@ function isInsideCanvas(x, y) {
 }
 
 finishTurn = () => {
-
-	console.log(curTurn);
+	//console.log(curTurn);
 	playerTurn = false;
 
 	let postData = {
@@ -86,11 +106,12 @@ finishTurn = () => {
 	}
 
 	httpPost(
-		"http://127.0.0.1:8000/draw", 
-		"json", 
+		"http://127.0.0.1:8000/draw",
+		"json",
 		postData,
 		(response) => {
 			aiTurn = response.data;
+			transformation = response.transformation;
 		});
   }
 

@@ -42,7 +42,7 @@ def reactToDraw():
         responseStroke.append([responseX, responseY])
     responseTurn.append(responseStroke)
 
-  return json.dumps({"data": responseTurn})
+  return json.dumps({"data": responseTurn,"transformation": transformation})
 
 if __name__ == '__main__':
     api.run(port=8000)
