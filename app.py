@@ -15,8 +15,10 @@ def reactToDraw():
 
   #rotate = bernoulli.rvs(p=0.5, size=1)
   rotateOptions = [90, 180, 270]
+  scaleOptions = [0.5, 2.0]
   rotateDeg = random.choice(rotateOptions)
-  transOptions=['shift','rotate','reflect']
+  scale = random.choice(scaleOptions)
+  transOptions=['shift','rotate','reflect','scale']
   transformation=random.choice(transOptions)
 
   responseTurn = []
@@ -39,6 +41,13 @@ def reactToDraw():
         elif transformation=='shift':
             responseX = xin + xshift
             responseY = yin + yshift
+        elif transformation=='scale':
+            if scale<1:
+                responseX = xin * scale + midX*scale;
+                responseY = yin * scale + midY*scale;
+            elif scale>=1:
+                responseX = xin * scale - midX;
+                responseY = yin * scale - midY;
         responseStroke.append([responseX, responseY])
     responseTurn.append(responseStroke)
 
