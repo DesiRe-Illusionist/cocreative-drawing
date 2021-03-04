@@ -18,7 +18,7 @@ def reactToDraw():
   scaleOptions = [0.5, 2.0]
   rotateDeg = random.choice(rotateOptions)
   scale = random.choice(scaleOptions)
-  transOptions=['shift','rotate','reflect','scale']
+  transOptions=['shift','rotate','reflect','scale','shadow','verthatch']
   transformation=random.choice(transOptions)
 
   responseTurn = []
@@ -48,6 +48,10 @@ def reactToDraw():
             elif scale>=1:
                 responseX = xin * scale - midX;
                 responseY = yin * scale - midY;
+        elif transformation == 'shadow' or transformation == 'verthatch':
+                #handle this one in p5
+                responseX = xin;
+                responseY = yin;
         responseStroke.append([responseX, responseY])
     responseTurn.append(responseStroke)
 

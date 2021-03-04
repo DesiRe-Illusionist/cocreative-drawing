@@ -24,12 +24,12 @@ function setup() {
 	background(255);
 
 	currentSetting = {
-		size: 20,
+		size: 5,
 		col: color(0, 0, 0, 150)
 	}
 
 	agentSetting = {
-		size: 20,
+		size: 5,
 		col: color(150, 0, 0, 150)
 	}
 
@@ -49,15 +49,32 @@ function draw() {
 			curStroke.push([mouseX, mouseY]);
 		}
 	} else {
-		stroke(agentSetting.col);
+
 		noFill();
-		strokeWeight(agentSetting.size);
+		strokeWeight(currentSetting.size);
+
+		if (transformation=='shadow'){
+			stroke(currentSetting.col)
+			drawingContext.shadowOffsetX = currentSetting.size + 5;
+		  drawingContext.shadowOffsetY = currentSetting.size - 5;
+		  drawingContext.shadowBlur = currentSetting.size + 10;
+		  drawingContext.shadowColor = 'black';
+		}
+		else{
+			stroke(agentSetting.col);
+		}
 
 		for (var i = 0; i < aiTurn.length; i++) {
 			if (aiTurn[i].length > 1) {
 				for (var j = 1; j < aiTurn[i].length; j++) {
 				//	console.log(aiTurn[i][j-1][0].toString(), aiTurn[i][j-1][1].toString(), aiTurn[i][j][0].toString(), aiTurn[i][j][1].toString())
 					line(aiTurn[i][j-1][0], aiTurn[i][j-1][1], aiTurn[i][j][0], aiTurn[i][j][1])
+
+					if (transformation == 'verthatch') {
+						strokeWeight(2);
+						stroke(currentSetting.col)
+						line(aiTurn[i][j][0], aiTurn[i][j][1],aiTurn[i][j][0], aiTurn[i][j][1] + 20)
+					}
 				}
 			}
 		}
@@ -68,12 +85,26 @@ function draw() {
 		fill(0);
 		strokeWeight(0);
 		console.log(transformation);
-		txtDiv = createDiv(transformation);
+		txtIntroOptions=['How about if we ','What if I ','Let me take what you did and ',"I see what you did there. Let me "];
+		txtIntro = txtIntroOptions[Math.floor(Math.random()*txtIntroOptions.length)];
+		if (['rotate','shift','reflect','scale'].includes(transformation)) {
+			txtStr=txtIntro + transformation + ' it.';
+		}
+		else if (transformation == 'shadow') {
+			txtStr="Let's try adding a shadow.";
+		}
+		else if (transformation == 'verthatch') {
+			txtStr="How about some vertical hatching?"
+		}
+		txtDiv = createDiv(txtStr);
 		txtDiv.parent("canvas");
 		txtDiv.position(corner.x + 10, corner.y - 30);
 		txtDiv.style('font=size','24px');
 		txtDiv.style('color','black');
 	}
+	drawingContext.shadowOffsetX = 0;
+	drawingContext.shadowOffsetY = 0;
+	drawingContext.shadowBlur = 0;
 }
 
 function mouseReleased() {
