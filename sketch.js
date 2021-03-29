@@ -1,6 +1,7 @@
 let button;
 let curTurn;
 let curStroke;
+let curCanvas
 let aiTurn;
 let txtDiv;
 let corner;
@@ -10,9 +11,6 @@ function setup() {
 	let myCanvas = createCanvas(600, 600);
 	myCanvas.parent("canvas");
 	corner=myCanvas.position();
-
-	console.log(corner);
-	console.log(corner.x, corner.y);
 
 	button = createButton('CLEAR');
 	button.center();
@@ -36,6 +34,12 @@ function setup() {
 	curTurn = [];
 	curStroke = [];
 	aiTurn = [];
+
+	txtDiv = createDiv('');
+	txtDiv.parent("canvas");
+	txtDiv.position(corner.x + 10, corner.y - 30);
+	txtDiv.style('font=size','24px');
+	txtDiv.style('color','black');
 }
 
 function draw() {
@@ -84,7 +88,6 @@ function draw() {
 		textSize(24);
 		fill(0);
 		strokeWeight(0);
-		console.log(transformation);
 		txtIntroOptions=['How about if we ','What if I ','Let me take what you did and ',"I see what you did there. Let me "];
 		txtIntro = txtIntroOptions[Math.floor(Math.random()*txtIntroOptions.length)];
 		if (['rotate','shift','reflect','scale'].includes(transformation)) {
@@ -96,11 +99,7 @@ function draw() {
 		else if (transformation == 'verthatch') {
 			txtStr="How about some vertical hatching?"
 		}
-		txtDiv = createDiv(txtStr);
-		txtDiv.parent("canvas");
-		txtDiv.position(corner.x + 10, corner.y - 30);
-		txtDiv.style('font=size','24px');
-		txtDiv.style('color','black');
+		txtDiv.textContent = txtStr;
 	}
 	drawingContext.shadowOffsetX = 0;
 	drawingContext.shadowOffsetY = 0;
@@ -129,8 +128,10 @@ function isInsideCanvas(x, y) {
 finishTurn = () => {
 	//console.log(curTurn);
 	playerTurn = false;
+	curCanvas = getCurCanvasImg();
 
 	let postData = {
+		"canvas" : curCanvas,
 		"data" : curTurn,
 		"width" : width,
 		"height" : height
@@ -148,4 +149,11 @@ finishTurn = () => {
 
 changeColor = newCol => {
 	col = newCol;
+}
+
+function getCurCanvasImg() {
+	let canvas = document.getElementById("defaultCanvas0");
+	if (canvas) {
+		return canvas.toDataURL("image/png");
+	}
 }
