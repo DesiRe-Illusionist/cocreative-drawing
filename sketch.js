@@ -25,12 +25,12 @@ function setup() {
 
 	currentSetting = {
 		size: 5,
-		col: color(0, 0, 0, 150)
+		col: color(0, 0, 0, 255)
 	}
 
 	agentSetting = {
 		size: 5,
-		col: color(150, 0, 0, 150)
+		col: color(150, 0, 0, 255)
 	}
 
 	curTurn = [];
@@ -112,10 +112,10 @@ function mouseReleased() {
 		curTurn.push(curStroke);
 		curStroke = [];
 	}
-	//if (document.getElementById('txtDiv')) {
-	//	txtDiv.remove();
-	//}
-	txtDiv.remove();
+	if (document.getElementById('txtDiv')) {
+		txtDiv.remove();
+	}
+	//txtDiv.remove();
 }
 
 function isInsideCanvas(x, y) {
@@ -129,11 +129,15 @@ function isInsideCanvas(x, y) {
 finishTurn = () => {
 	//console.log(curTurn);
 	playerTurn = false;
-
+	let cav=document.getElementById("defaultCanvas0");
+	let img_base=new Image();
+	img_base=cav.toDataURL();
+	
 	let postData = {
 		"data" : curTurn,
 		"width" : width,
-		"height" : height
+		"height" : height,
+		"file":img_base
 	}
 
 	httpPost(

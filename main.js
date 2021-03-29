@@ -23,31 +23,31 @@ colButtonClick1 = (item) => {
 convertStringtoColor = colorName => {
   switch (colorName) {
     case 'red':
-      return color(255, 0, 0, 150);
+      return color(255, 0, 0, 255);
       break;
     case 'green':
-      return color(0, 255, 0, 150);
+      return color(0, 255, 0,255);
       break;
     case 'blue':
-      return color(0, 0, 255, 150);
+      return color(0, 0, 255, 255);
       break;
     case 'cyan':
-      return color(0, 255, 255, 150);
+      return color(0, 255, 255, 255);
       break;
     case 'magenta':
-      return color(255, 0, 255, 150);;
+      return color(255, 0, 255, 255);;
       break;
     case 'yellow':
-      return color(255, 255, 0, 150);
+      return color(255, 255, 0, 255);
       break;
     case 'black':
-      return color(0, 0, 0, 150);
+      return color(0, 0, 0, 255);
       break;
     case 'grey':
-      return color(127, 127, 127, 150);
+      return color(127, 127, 127, 255);
       break;
     case 'white':
-      return color(255, 255, 255, 150);
+      return color(255, 255, 255, 255);
       break;
   }
 }
