@@ -1,11 +1,14 @@
 let button;
 let curTurn;
 let curStroke;
-let curCanvas
 let aiTurn;
 let txtDiv;
-let corner;
-
+let prevCanvas;
+let curCanvas;
+let turnNum;
+let prevCanvasBase64;
+let curCanvasBase64;
+let sessionId;
 
 function setup() {
 	let myCanvas = createCanvas(600, 600);
@@ -23,23 +26,22 @@ function setup() {
 
 	currentSetting = {
 		size: 5,
-		col: color(0, 0, 0, 150)
+		col: color(0, 0, 0, 255)
 	}
 
 	agentSetting = {
 		size: 5,
-		col: color(150, 0, 0, 150)
+		col: color(150, 0, 0, 255)
 	}
 
+	turnNum = 0;
 	curTurn = [];
 	curStroke = [];
 	aiTurn = [];
-
-	txtDiv = createDiv('');
-	txtDiv.parent("canvas");
-	txtDiv.position(corner.x + 10, corner.y - 30);
-	txtDiv.style('font=size','24px');
-	txtDiv.style('color','black');
+	sessionId = uuidv4();
+	prevCanvas = document.getElementById("defaultCanvas0");
+	prevCanvasBase64 = new Image();
+	prevCanvasBase64 = prevCanvas.toDataURL();
 }
 
 function draw() {
@@ -71,7 +73,6 @@ function draw() {
 		for (var i = 0; i < aiTurn.length; i++) {
 			if (aiTurn[i].length > 1) {
 				for (var j = 1; j < aiTurn[i].length; j++) {
-				//	console.log(aiTurn[i][j-1][0].toString(), aiTurn[i][j-1][1].toString(), aiTurn[i][j][0].toString(), aiTurn[i][j][1].toString())
 					line(aiTurn[i][j-1][0], aiTurn[i][j-1][1], aiTurn[i][j][0], aiTurn[i][j][1])
 
 					if (transformation == 'verthatch') {
@@ -83,11 +84,14 @@ function draw() {
 			}
 		}
 
+		prevCanvasBase64 = document.getElementById("defaultCanvas0").toDataURL();
+
 		aiTurn = [];
 		curTurn=[];
 		textSize(24);
 		fill(0);
 		strokeWeight(0);
+		console.log(transformation);
 		txtIntroOptions=['How about if we ','What if I ','Let me take what you did and ',"I see what you did there. Let me "];
 		txtIntro = txtIntroOptions[Math.floor(Math.random()*txtIntroOptions.length)];
 		if (['rotate','shift','reflect','scale'].includes(transformation)) {
@@ -99,7 +103,11 @@ function draw() {
 		else if (transformation == 'verthatch') {
 			txtStr="How about some vertical hatching?"
 		}
-		txtDiv.textContent = txtStr;
+		txtDiv = createDiv(txtStr);
+		txtDiv.parent("canvas");
+		txtDiv.position(corner.x + 10, corner.y - 30);
+		txtDiv.style('font=size','24px');
+		txtDiv.style('color','black');
 	}
 	drawingContext.shadowOffsetX = 0;
 	drawingContext.shadowOffsetY = 0;
@@ -111,10 +119,9 @@ function mouseReleased() {
 		curTurn.push(curStroke);
 		curStroke = [];
 	}
-	//if (document.getElementById('txtDiv')) {
-	//	txtDiv.remove();
-	//}
-	txtDiv.remove();
+	if (document.getElementById('txtDiv')) {
+		txtDiv.remove();
+	}
 }
 
 function isInsideCanvas(x, y) {
@@ -126,16 +133,24 @@ function isInsideCanvas(x, y) {
 }
 
 finishTurn = () => {
-	//console.log(curTurn);
 	playerTurn = false;
-	curCanvas = getCurCanvasImg();
+	turnNum += 1;
 
+	curCanvas = document.getElementById("defaultCanvas0");
+	curCanvasBase64 = new Image();
+	curCanvasBase64 = curCanvas.toDataURL();
+	
 	let postData = {
-		"canvas" : curCanvas,
-		"data" : curTurn,
+		"session_id" : sessionId,
+		"current_turn_number" : turnNum,
 		"width" : width,
-		"height" : height
+		"height" : height,
+		"stroke" : curTurn,
+		"current_canvas" : curCanvasBase64,
+		"previous_canvas" : prevCanvasBase64
 	}
+
+	// prevCanvasBase64 = curCanvasBase64;
 
 	httpPost(
 		"http://127.0.0.1:8000/draw",
@@ -151,9 +166,9 @@ changeColor = newCol => {
 	col = newCol;
 }
 
-function getCurCanvasImg() {
-	let canvas = document.getElementById("defaultCanvas0");
-	if (canvas) {
-		return canvas.toDataURL("image/png");
-	}
-}
+function uuidv4() {
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+	  var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+	  return v.toString(16);
+	});
+  }
