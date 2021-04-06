@@ -102,6 +102,8 @@ function draw() {
 		}
 		else if (transformation == 'verthatch') {
 			txtStr="How about some vertical hatching?"
+		} else {
+			txtStr = transformation
 		}
 		txtDiv = createDiv(txtStr);
 		txtDiv.parent("canvas");
@@ -135,6 +137,9 @@ function isInsideCanvas(x, y) {
 finishTurn = () => {
 	playerTurn = false;
 	turnNum += 1;
+	if (txtDiv) {
+		txtDiv.remove();
+	}
 
 	curCanvas = document.getElementById("defaultCanvas0");
 	curCanvasBase64 = new Image();
