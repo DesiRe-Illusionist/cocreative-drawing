@@ -15,7 +15,9 @@ api = Flask(__name__)
 cors = CORS(api)
 
 empty_canvas = cv2.imread("empty_canvas.png")
-
+@api.route('/')
+def home():
+    return "Hello! this is just a backend! Nothing to see here go to the frontend to draw!"
 @api.route('/draw', methods=['POST'])
 def reactToDraw():
     sessionId = request.get_json().get("session_id")
@@ -83,7 +85,7 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
             if feature_set["stroke"]["number_of_contours"] == 2 and feature_set["stroke"]["is_closed"]:
                 print("new object is an enclosed object")
                 # new object is an enclosed object
-                # strategies: 
+                # strategies:
                 #   Use this new object to fill the enclosure. (shrink)
                 #   Use this new object to enclose the object. (expand)
                 #   Add line to divide the enclosure (connect)
@@ -171,7 +173,7 @@ def strengthen_connection_agent(strokes):
                 responseStroke.append([x,y])
             responseStroke.append(stroke[-1])
             responseTurn.append(responseStroke)
-    
+
     return responseTurn, "strengthen connection"
 
 
@@ -240,7 +242,7 @@ def divide_closure_agent(stroke, stroke_image, cur_image, feature_set, width, he
             end_y = int(stroke_contours[inner_contour_idx][mid_contour][0][1])
 
             return [[[start_x, start_y],[end_x, end_y]]], "divide closure"
-    
+
     return close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, height)
 
 
@@ -369,7 +371,7 @@ def close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, heigh
     return [responseStroke], "close shape"
 
 def shift_agent(stroke, stroke_image, cur_image, feature_set, width, height):
-    
+
     stroke_gray = cv2.cvtColor(stroke_image, cv2.COLOR_BGR2GRAY)
     stroke_thresh = cv2.threshold(stroke_gray, 200, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
     numLabels, labels, stats, centroids = cv2.connectedComponentsWithStats(stroke_thresh,ltype=cv2.CV_32S, connectivity=4)
@@ -470,7 +472,7 @@ def shift_agent(stroke, stroke_image, cur_image, feature_set, width, height):
     return responseTurn, "shift"
 
 def shift_component_agent(stroke, component, cur_image, feature_set, width, height):
-    
+
     numLabels, labels, stats, centroids = cv2.connectedComponentsWithStats(component,ltype=cv2.CV_32S, connectivity=4)
 
     x = stats[1, cv2.CC_STAT_LEFT]
@@ -566,7 +568,7 @@ def shift_component_agent(stroke, component, cur_image, feature_set, width, heig
             responseStroke.append([responseX, responseY])
         responseTurn.append(responseStroke)
 
-    return responseTurn, "shift" 
+    return responseTurn, "shift"
 
 def isPixelInExternalStroke(cur_image_thresh, cur_stroke_thresh, x_pos, y_pos):
     return cur_image_thresh[x_pos, y_pos] != 0 and cur_stroke_thresh[x_pos, y_pos] == 0
@@ -604,7 +606,7 @@ def extract_features(cur_image, prev_image, stroke, sessionId, turnNum):
     stroke_contours, hierarchy = feature_extraction.findContours(stroke)
     closed = feature_extraction.isClosed(stroke_contours, hierarchy)
     x_origin, y_origin, x_slope, y_slope = feature_extraction.findOrientation(stroke_contours)
-    
+
     print("\nCurrent Canvas Features:")
     canvas_num_components, canvas_center_of_mass, canvas_components, white_space = feature_extraction.findConnectedComponents(cur_image)
     print("Found [" + str(canvas_num_components) + "] components on Canvas")
@@ -710,7 +712,7 @@ def data_uri_to_cv2_img(uri):
 
     encoded_data = uri.split(',')[1]
     nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
-    
+
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     valid_image = canvas_diff(img, empty_canvas)
 
