@@ -1,4 +1,4 @@
-from flask import Flask, request, json
+from flask import Flask, request, json, render_template
 from flask_cors import CORS, cross_origin
 #from scipy.stats import bernoulli
 import random
@@ -17,7 +17,7 @@ cors = CORS(api)
 empty_canvas = cv2.imread("empty_canvas.png")
 @api.route('/')
 def index():
-    return "Hello! this is just a backend! Nothing to see here go to the frontend to draw!"
+    return render_template("index.html")
 
 @api.route('/draw', methods=['POST'])
 def reactToDraw():
