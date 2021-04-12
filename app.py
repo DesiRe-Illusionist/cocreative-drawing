@@ -16,8 +16,9 @@ cors = CORS(api)
 
 empty_canvas = cv2.imread("empty_canvas.png")
 @api.route('/')
-def home():
+def index():
     return "Hello! this is just a backend! Nothing to see here go to the frontend to draw!"
+
 @api.route('/draw', methods=['POST'])
 def reactToDraw():
     sessionId = request.get_json().get("session_id")
@@ -743,5 +744,5 @@ def record_components(components, sessionId, turnNum):
         img.save("../Artifacts/components/" + fileNamePrefix + "component-" + str(i) + ".png")
 
 
-if __name__ == '__main__':
-    api.run(port=8000)
+#if __name__ == '__main__':
+    #api.run(port=8000)
