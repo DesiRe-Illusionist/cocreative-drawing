@@ -12,7 +12,8 @@ from scipy.signal import argrelextrema
 from PIL import Image
 
 app = Flask(__name__)
-cors = CORS(api)
+cors = CORS(app)
+
 
 empty_canvas = cv2.imread("empty_canvas.png")
 @app.route('/')
