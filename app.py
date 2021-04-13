@@ -33,7 +33,7 @@ def reactToDraw():
     cur_image = data_uri_to_cv2_img(curBase64Img)
     prev_image = data_uri_to_cv2_img(prevBase64Img)
     stroke_imag = draw_stroke(stroke, width, height)
-    record_canvas_and_stroke(prev_image, cur_image, stroke_imag, sessionId, turnNum)
+    #record_canvas_and_stroke(prev_image, cur_image, stroke_imag, sessionId, turnNum)
 
     feature_set, cur_components, prev_components = extract_features(cur_image, prev_image, stroke_imag, sessionId, turnNum)
 
@@ -612,7 +612,7 @@ def extract_features(cur_image, prev_image, stroke, sessionId, turnNum):
     print("\nCurrent Canvas Features:")
     canvas_num_components, canvas_center_of_mass, canvas_components, white_space = feature_extraction.findConnectedComponents(cur_image)
     print("Found [" + str(canvas_num_components) + "] components on Canvas")
-    record_components(canvas_components, sessionId, turnNum)
+    #record_components(canvas_components, sessionId, turnNum)
     print("Center of mass on the canvas is: " + str(canvas_center_of_mass))
     print("Remaining white space percentage on canvas is: " + str(white_space))
     vertical_symmetry_score, horizontal_symmetry_score, up_diagnal_symmetry_score, down_diagnal_symmetry_score = feature_extraction.findSymmetry(cur_image, sessionId, turnNum)

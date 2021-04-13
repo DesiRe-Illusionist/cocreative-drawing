@@ -32,16 +32,16 @@ def findSymmetry(img, sessionId, turnNum):
 
     fileNamePrefix = str(sessionId) + ":" + str(turnNum) + "-"
     img = Image.fromarray((vertical_phaseSym * 255).astype(numpy.uint8), 'L')
-    img.save("../Artifacts/phaseSym/" + fileNamePrefix + "vert.png")
+    #img.save("../Artifacts/phaseSym/" + fileNamePrefix + "vert.png")
 
     img = Image.fromarray((horizontal_phaseSym * 255).astype(numpy.uint8), 'L')
-    img.save("../Artifacts/phaseSym/" + fileNamePrefix + "hori.png")
+    #img.save("../Artifacts/phaseSym/" + fileNamePrefix + "hori.png")
 
     img = Image.fromarray((upward_diagnal_phaseSym * 255).astype(numpy.uint8), 'L')
-    img.save("../Artifacts/phaseSym/" + fileNamePrefix + "up_diag.png")
+    #img.save("../Artifacts/phaseSym/" + fileNamePrefix + "up_diag.png")
 
     img = Image.fromarray((downward_diagnal_phaseSym * 255).astype(numpy.uint8), 'L')
-    img.save("../Artifacts/phaseSym/" + fileNamePrefix + "down_diag.png")
+    #img.save("../Artifacts/phaseSym/" + fileNamePrefix + "down_diag.png")
 
     normalization_constant = 150000
     vertical_symmetry_score = numpy.sum(vertical_phaseSym) / normalization_constant
