@@ -723,8 +723,10 @@ def data_uri_to_cv2_img(uri):
 def canvas_diff(cur_canvas, prev_canvas):
     return 255 + cur_canvas - prev_canvas
 
+
 def draw_stroke(stroke, width, height):
     image = np.ones((width, height, 3), np.uint8) * 255
+    img = cv2.resize(img, (600, 600))
     for i in range(len(stroke)):
         for j in range(len(stroke[i]) - 1):
             cv2.line(image, (int(stroke[i][j][0]), int(stroke[i][j][1])), (int(stroke[i][j+1][0]), int(stroke[i][j+1][1])), (0, 0, 0), 5)
