@@ -716,7 +716,7 @@ def data_uri_to_cv2_img(uri):
     nparr = np.fromstring(base64.b64decode(encoded_data), np.uint8)
 
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    img = cv2.resize(img, (600, 600)
+    img = cv2.resize(img, (600, 600))
     valid_image = canvas_diff(img, empty_canvas)
 
     return valid_image
