@@ -161,15 +161,6 @@ def findContours(stroke, threshold=200):
 
     print("Number of contours found in this stroke is " + str(len(contours)))
 
-    # contour_img = numpy.zeros((src.shape[0], src.shape[1], 3), numpy.uint8)
-    # for i in range(len(contours)):
-
-    #     cv2.drawContours(contour_img, [contours[i]], -1, (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)), 3)
-    #     cv2.imshow("contour", empty)
-    #     cv2.waitKey(0)
-
-    # img = Image.fromarray(contour_img.astype(numpy.uint8))
-    # img.save("../Artifacts/contours/" + str(time.time()) + ".png")
     return contours, hierarchy
 
 

@@ -157,11 +157,11 @@ finishTurn = () => {
 
 	console.log("postData",postData);
 
-	// prevCanvasBase64 = curCanvasBase64;
-	//http://127.0.0.1:5000/draw
+	// http://127.0.0.1:5000/draw
+	// "https://artifex-backend.herokuapp.com/draw"
 
 	httpPost(
-		"https://artifex-backend.herokuapp.com/draw",
+		"http://127.0.0.1:5000/draw",
 		"json",
 		postData,
 		(response) => {

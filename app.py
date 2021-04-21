@@ -8,6 +8,7 @@ import time
 import numpy as np
 import feature_extraction
 import agents
+import evaluation
 from scipy.signal import argrelextrema
 from PIL import Image
 
@@ -44,7 +45,7 @@ def reactToDraw():
 
 def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_components, width, height):
 
-    random_number = random.random()
+    stroke_candidates = {}
 
     if feature_set["canvas_diff"]["number_of_components"] == 0:
         print("player added strokes to existing object")
@@ -55,8 +56,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   SketchRNN completion
         #   If the object is still open, close it.
 
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
 
-        return agents.enclose_updated_component(updated_components[0])
 
     elif feature_set["canvas_diff"]["number_of_components"] < 0:
         print("player connected existing objects")
@@ -66,10 +67,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   using different stroke to connect the same two obejcts
         #   draw a container to enclose the newly connected large componnent
 
-        if random_number > 0.5:
-            return agents.enclose_updated_component(updated_components[0])
-        else:
-            return agents.strengthen_connection_agent(stroke)
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
+        stroke_candidates["strengthen_connection"] = agents.strengthen_connection_agent(stroke)
 
     elif feature_set["canvas_diff"]["number_of_components"] == 1:
         if feature_set["stroke"]["number_of_components"] == 1:
@@ -84,10 +83,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   Use this new object to enclose the object. (expand)
                 #   Add line to divide the enclosure (connect)
 
-                if random_number > 0.5:
-                    return agents.scale_in_place_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                else:
-                    return agents.divide_closure_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                stroke_candidates["scale_in_place"] = agents.scale_in_place_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                stroke_candidates["divide_closure"] = agents.divide_closure_agent(stroke, stroke_image, cur_image, feature_set, width, height)
 
             elif feature_set["stroke"]["number_of_contours"] == 1:
                 print("new object is one open object")
@@ -97,11 +94,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   close this object
                 #   distort the object
 
-                if random_number > 0.5:
-                    return agents.close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                else:
-                    return agents.distort_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-
+                stroke_candidates["close_shape"] = agents.close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                stroke_candidates["distort"] = agents.distort_agent(stroke, stroke_image, cur_image, feature_set, width, height)
 
             else:
                 print("new object is a complex object")
@@ -111,11 +105,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   draw something around this object
                 #   distort the object
 
+                stroke_candidates["shift"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                stroke_candidates["enclose"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height)
 
-                if random_number > 0.5:
-                    return agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                else:
-                    return agents.enclose_agent(stroke, stroke_image, cur_image, feature_set, width, height)
         else:
             print("player added new object and also added stroke to existing object")
             # player added new object and also added stroke to existing object
@@ -123,7 +115,7 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
             #   connect the new object with the exist object
             #   repeat the new object (shift, scale, etc)
 
-            return agents.enclose_updated_component(updated_components[0])
+            stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
 
     else:
         print("player added multiple objects")
@@ -131,10 +123,11 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   connect the multiple objects
         #   add same number of objects
 
-        if random_number > 0.5:
-            return agents.enclose_updated_component(updated_components[0])
-        else:
-            return agents.connect_components_agent(updated_components)
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
+        stroke_candidates["connect_components"] = agents.connect_components_agent(updated_components)
+    
+    agent = evaluation.evaluate(cur_image, stroke_candidates, feature_set)
+    return stroke_candidates[agent]
 
 def findUpdatedComponents(cur_components, prev_components):
 
@@ -218,52 +211,6 @@ def extract_features(cur_image, prev_image, stroke, sessionId, turnNum):
     }
 
     return feature_set, canvas_components, prev_components
-
-def transformation_agent(strokes, width, height):
-    #rotate = bernoulli.rvs(p=0.5, size=1)
-    rotateOptions = [90, 180, 270]
-    scaleOptions = [0.5, 2.0]
-    rotateDeg = random.choice(rotateOptions)
-    scale = random.choice(scaleOptions)
-    # transOptions=['shift','rotate','reflect','scale','shadow','verthatch']
-    transOptions=['shift','rotate','reflect','scale']
-    transformation=random.choice(transOptions)
-
-    responseTurn = []
-    for stroke in strokes:
-        responseStroke = []
-        midstroke=stroke[round(len(stroke)/2)-1]
-        midX = midstroke[0]
-        midY = midstroke[1]
-        xshift=random.randint(-50,50)
-        yshift=random.randint(-50,50)
-        for point in stroke:
-            xin=point[0]
-            yin=point[1]
-            if transformation=='reflect':
-                responseX = width - xin
-                responseY = height - yin
-            elif transformation=='rotate':
-                responseX = np.cos(rotateDeg) * (xin - midX) - np.sin(rotateDeg) * (yin - midY) + midX
-                responseY = np.sin(rotateDeg) * (xin - midX) + np.cos(rotateDeg) * (yin - midY) + midY
-            elif transformation=='shift':
-                responseX = xin + xshift
-                responseY = yin + yshift
-            elif transformation=='scale':
-                if scale<1:
-                    responseX = xin * scale + midX*scale
-                    responseY = yin * scale + midY*scale
-                elif scale>=1:
-                    responseX = xin * scale - midX
-                    responseY = yin * scale - midY
-            elif transformation == 'shadow' or transformation == 'verthatch':
-                    #handle this one in p5
-                    responseX = xin
-                    responseY = yin
-            responseStroke.append([responseX, responseY])
-        responseTurn.append(responseStroke)
-
-    return responseTurn, transformation
 
 def data_uri_to_cv2_img(uri):
 
