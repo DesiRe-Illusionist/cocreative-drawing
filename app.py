@@ -11,7 +11,7 @@ import agents
 import evaluation
 from scipy.signal import argrelextrema
 from PIL import Image
-import ml_agent.sketch_rnn_wrapper
+# import ml_agent.sketch_rnn_wrapper
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -42,7 +42,7 @@ def reactToDraw():
     updated_components = findUpdatedComponents(cur_components, prev_components)
 
     responseTurn, transformation, usrAction = decision_tree(stroke, stroke_imag, cur_image, feature_set, updated_components, width, height)
-    
+
     # Uncomment this to play with custom trained sketch rnn
     # responseTurn = ml_agent.sketch_rnn_wrapper.predict_next_stroke(stroke)
 
@@ -136,7 +136,7 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         usrAction = 'added_multiple_objects'
         stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0]) + (usrAction,)
         stroke_candidates["connect_components"] = agents.connect_components_agent(updated_components) + (usrAction,)
-    
+
     agent = evaluation.evaluate(cur_image, stroke_candidates, feature_set)
     return stroke_candidates[agent]
 
