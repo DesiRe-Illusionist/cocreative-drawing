@@ -8,7 +8,7 @@ def evaluate(cur_canvas, stroke_candidates, feature_set):
     max_agent = ''
 
     for agent in stroke_candidates:
-        agent_stroke, _ = stroke_candidates[agent]
+        agent_stroke, _ , _ = stroke_candidates[agent]
 
         hypothetical_canvas = draw_stroke_on_img(cur_canvas, agent_stroke, 600, 600)
 

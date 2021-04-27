@@ -39,13 +39,14 @@ def reactToDraw():
     feature_set, cur_components, prev_components = extract_features(cur_image, prev_image, stroke_imag, sessionId, turnNum)
 
     updated_components = findUpdatedComponents(cur_components, prev_components)
-    responseTurn, transformation = decision_tree(stroke, stroke_imag, cur_image, feature_set, updated_components, width, height)
+    responseTurn, transformation, usrAction = decision_tree(stroke, stroke_imag, cur_image, feature_set, updated_components, width, height)
 
-    return json.dumps({"data": responseTurn,"transformation": transformation})
+    return json.dumps({"data": responseTurn,"transformation": transformation, "usr_action": usrAction})
 
 def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_components, width, height):
 
     stroke_candidates = {}
+    usrAction = ''
 
     if feature_set["canvas_diff"]["number_of_components"] == 0:
         print("player added strokes to existing object")
@@ -56,7 +57,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   SketchRNN completion
         #   If the object is still open, close it.
 
-        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
+        usrAction = 'add_to_existing'
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0]) + (usrAction,)
 
 
     elif feature_set["canvas_diff"]["number_of_components"] < 0:
@@ -67,8 +69,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   using different stroke to connect the same two obejcts
         #   draw a container to enclose the newly connected large componnent
 
-        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
-        stroke_candidates["strengthen_connection"] = agents.strengthen_connection_agent(stroke)
+        usrAction = 'connect_existing'
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0]) + (usrAction,)
+        stroke_candidates["strengthen_connection"] = agents.strengthen_connection_agent(stroke) + (usrAction,)
 
     elif feature_set["canvas_diff"]["number_of_components"] == 1:
         if feature_set["stroke"]["number_of_components"] == 1:
@@ -83,8 +86,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   Use this new object to enclose the object. (expand)
                 #   Add line to divide the enclosure (connect)
 
-                stroke_candidates["scale_in_place"] = agents.scale_in_place_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                stroke_candidates["divide_closure"] = agents.divide_closure_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                usrAction = 'added_new_closed_object'
+                stroke_candidates["scale_in_place"] = agents.scale_in_place_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
+                stroke_candidates["divide_closure"] = agents.divide_closure_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
 
             elif feature_set["stroke"]["number_of_contours"] == 1:
                 print("new object is one open object")
@@ -94,8 +98,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   close this object
                 #   distort the object
 
-                stroke_candidates["close_shape"] = agents.close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                stroke_candidates["distort"] = agents.distort_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                usrAction = 'added_new_open_object'
+                stroke_candidates["close_shape"] = agents.close_shape_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
+                stroke_candidates["distort"] = agents.distort_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
 
             else:
                 print("new object is a complex object")
@@ -104,9 +109,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
                 #   translate (shift, scale, etc)
                 #   draw something around this object
                 #   distort the object
-
-                stroke_candidates["shift"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height)
-                stroke_candidates["enclose"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height)
+                usrAction = 'added_new_complex_object'
+                stroke_candidates["shift"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
+                stroke_candidates["enclose"] = agents.shift_agent(stroke, stroke_image, cur_image, feature_set, width, height) + (usrAction,)
 
         else:
             print("player added new object and also added stroke to existing object")
@@ -114,8 +119,8 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
             # strategies:
             #   connect the new object with the exist object
             #   repeat the new object (shift, scale, etc)
-
-            stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
+            usrAction = 'added_new_object_and_existing'
+            stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0]) + (usrAction,)
 
     else:
         print("player added multiple objects")
@@ -123,8 +128,9 @@ def decision_tree(stroke, stroke_image, cur_image, feature_set, updated_componen
         #   connect the multiple objects
         #   add same number of objects
 
-        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0])
-        stroke_candidates["connect_components"] = agents.connect_components_agent(updated_components)
+        usrAction = 'added_multiple_objects'
+        stroke_candidates["enclose_updated"] = agents.enclose_updated_component(updated_components[0]) + (usrAction,)
+        stroke_candidates["connect_components"] = agents.connect_components_agent(updated_components) + (usrAction,)
     
     agent = evaluation.evaluate(cur_image, stroke_candidates, feature_set)
     return stroke_candidates[agent]

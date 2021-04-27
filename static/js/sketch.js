@@ -103,7 +103,7 @@ function draw() {
 		else if (transformation == 'verthatch') {
 			txtStr="How about some vertical hatching?"
 		} else {
-			txtStr = transformation
+			txtStr = transformation + " " + usrAction
 		}
 		txtDiv = createDiv(txtStr);
 		txtDiv.parent("canvas");
@@ -165,8 +165,10 @@ finishTurn = () => {
 		"json",
 		postData,
 		(response) => {
+			console.log(response)
 			aiTurn = response.data;
 			transformation = response.transformation;
+			usrAction = response.usr_action
 		});
   }
 
