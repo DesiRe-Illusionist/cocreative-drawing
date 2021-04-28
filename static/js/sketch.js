@@ -53,7 +53,7 @@ function setup() {
 	button = createButton('CLEAR');
 	button.parent('#clearButtonDiv');
 	button.mousePressed(() => {
-		$('#dialogue').css('display', 'none');
+		$('#bubble').css('display', 'none');
 		background(255);
 	});
 
@@ -66,7 +66,7 @@ function setup() {
 
 	agentSetting = {
 		size: 5,
-		col: color(150, 0, 0, 255)
+		col: [color(150, 0, 0, 255), color(0, 150, 0, 255), color(0, 0, 150, 255)]
 	}
 
 	turnNum = 0;
@@ -101,7 +101,8 @@ function draw() {
 		  // drawingContext.shadowColor = 'black';
 		}
 		else{
-			stroke(agentSetting.col);
+			var currentSlide = $('.agent-selection').slick('slickCurrentSlide');
+			stroke(agentSetting.col[currentSlide]);
 		}
 
 		for (var i = 0; i < aiTurn.length; i++) {
@@ -282,7 +283,8 @@ function draw() {
     }
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-		stroke(agentSetting.col);
+		var currentSlide = $('.agent-selection').slick('slickCurrentSlide');
+		stroke(agentSetting.col[currentSlide]);
 	  strokeWeight(agentSetting.size);
     noFill();
 
@@ -428,7 +430,7 @@ finishTurn = () => {
 			});
 	}
 
-	$('#dialogue').css('display', 'block');
+	$('#bubble').css('display', 'block');
 }
 
 changeColor = newCol => {

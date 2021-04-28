@@ -54,7 +54,7 @@
 		<div class="row">
 			<div id="playerCol" class="col-lg-2">
 				<h2 class="name-label">NAME: </h2>
-				<h3 class="name">Player 1</h3>
+				<div class="name" id="user_name"><span  contenteditable="true">Your name</span>&#9998;</div>
 				<div class="controls">
 					<!-- <button id="player1" class="draw-button" onclick="finishTurn(this)">Finish Turn</button> -->
 					<!-- <br /><br /> -->
@@ -80,17 +80,17 @@
 			<div id="aiCol" class="col-lg-3">
 				<h2 class="name-label">NAME:</h2>
 				<h3 class="name">Dr. Drawctopus</h3>
-				<div id="bubble"></div>
+				<div id="bubble" class="bubble-bottom-left"></div>
 				<div id="octo">
-					<img src="../static/image/octo.png" />
+					<img id="octo-img" src="../static/image/octo0.png" />
 					<div class="agent-selection-div">
-						<div class="prev"> &#8592; </div>
+						<div onclick="changeAgent(2)" class="prev"> &#8592; </div>
 						<div class="agent-selection">
 							<div>Rule Based Agent</div>
 							<div>SketchRNN Artist Agent</div>
 							<div>SketchRNN Quick Draw Agent</div>
 						</div>
-						<div class="next">&#8594;</div>
+						<div onclick="changeAgent(1)" class="next">&#8594;</div>
 					</div>
 				</div>
 			</div>
