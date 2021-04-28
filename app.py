@@ -11,7 +11,7 @@ import agents
 import evaluation
 from scipy.signal import argrelextrema
 from PIL import Image
-# import ml_agent.sketch_rnn_wrapper
+import ml_agent.sketch_rnn_wrapper
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -259,3 +259,15 @@ def record_components(components, sessionId, turnNum):
     for i in range(len(components)):
         img = Image.fromarray(components[i], 'L')
         img.save("../Artifacts/components/" + fileNamePrefix + "component-" + str(i) + ".png")
+
+
+
+
+
+@app.route('/drawRNN', methods=['POST'])
+def reactToDraw():
+    stroke = request.get_json().get("stroke")
+    responseTurn = ml_agent.sketch_rnn_wrapper.predict_next_stroke(stroke)
+    trans2 = "sketchRNN-Artist invovked"
+    usraction2 = "sketchRNN-Artist Selected"
+    return json.dumps({"data": responseTurn,"transformation": trans2, "usr_action": usraction2 })
