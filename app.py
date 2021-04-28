@@ -259,3 +259,16 @@ def record_components(components, sessionId, turnNum):
     for i in range(len(components)):
         img = Image.fromarray(components[i], 'L')
         img.save("../Artifacts/components/" + fileNamePrefix + "component-" + str(i) + ".png")
+
+
+
+
+
+@app.route('/drawRNN', methods=['POST'])
+def reactToDrawRNN():
+    stroke = request.get_json().get("stroke")
+    # responseTurn = ml_agent.sketch_rnn_wrapper.predict_next_stroke(stroke)
+    responseTurn = "test!!!"
+    trans2 = "sketchRNN-Artist invovked"
+    usraction2 = "sketchRNN-Artist Selected"
+    return json.dumps({"data": responseTurn,"transformation": trans2, "usr_action": usraction2 })
