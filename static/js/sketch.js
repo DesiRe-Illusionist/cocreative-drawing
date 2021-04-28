@@ -35,6 +35,8 @@ function setup() {
 	myCanvas.parent("canvas");
 	corner=myCanvas.position();
 
+	pencilPicked = false;
+
 	//################################################
 	//################################################
 	//SketchRNN-
@@ -45,9 +47,9 @@ function setup() {
 	//################################################
 
 	button = createButton('CLEAR');
-	button.center();
-	button.style('margin-top', '45vh');
+	button.parent('#clearButtonDiv');
 	button.mousePressed(() => {
+		$('#dialogue').css('display', 'none');
 		background(255);
 	});
 
@@ -75,7 +77,7 @@ function setup() {
 
 function draw() {
 	if (aiTurn.length == 0) {
-		if (mouseIsPressed && isInsideCanvas(mouseX, mouseY)) {
+		if (mouseIsPressed && isInsideCanvas(mouseX, mouseY) && pencilPicked) {
 			stroke(currentSetting.col);
 			noFill();
 			strokeWeight(currentSetting.size);
@@ -227,11 +229,10 @@ function draw() {
 
 
 		txtDiv = createDiv(txtStr);
-		txtDiv.parent("canvas");
-		txtDiv.position(corner.x + 10, corner.y - 30);
-		txtDiv.style('font=size','24px');
-		txtDiv.style('color','black');
+		txtDiv.id('dialogue');
+		txtDiv.parent("#bubble");
 	}
+
 	drawingContext.shadowOffsetX = 0;
 	drawingContext.shadowOffsetY = 0;
 	drawingContext.shadowBlur = 0;
@@ -387,6 +388,8 @@ finishTurn = () => {
 				usrAction = response.usr_action
 			});
 	}
+
+	$('#dialogue').css('display', 'block');
 }
 
 changeColor = newCol => {
@@ -404,15 +407,19 @@ function uuidv4() {
 //################################################
 //SketchRNN-Functions
 function startDrawing() {
-  personDrawing = true;
-  x = mouseX;
-  y = mouseY;
+	if (pencilPicked) {
+		personDrawing = true;
+		x = mouseX;
+		y = mouseY;
+	}
 }
 
 function stopDrawing() {
-  personDrawing = false;
-  x = mouseX;
-  y = mouseY;
+	if (pencilPicked) {
+		personDrawing = false;
+		x = mouseX;
+		y = mouseY;
+	}
 }
 
 function sketchRNNStart() {

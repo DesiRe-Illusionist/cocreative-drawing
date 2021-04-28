@@ -32,39 +32,53 @@
 	<script src="static/js/rdp.js"></script>
 	<script src="static/js/sketch.js"></script>
 	<script src="static/js/main.js"></script>
+
+	<!-- Fonts -->
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Rubik:wght@400;700&display=swap"
+		rel="stylesheet">
 </head>
 
-<body>
+<body id="body">
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-2">
+			<div class="col-lg-2"></div>
+			<h1 class="col-lg-7">DRAWCTO</h1>
+			<div class="col-lg-3"></div>
+		</div>
+		<div class="row">
+			<div id="playerCol" class="col-lg-2">
+				<h2>NAME: </h2>
+				<h3>Player 1</h3>
 				<div class="controls">
-					<h1>Drawcto</h1>
-					<br /><br />
-					<button id="player1" class="draw-button" onclick="finishTurn(this)">Finish Turn</button>
-					<br /><br />
+					<!-- <button id="player1" class="draw-button" onclick="finishTurn(this)">Finish Turn</button> -->
+					<!-- <br /><br /> -->
 					<div class="settings" id="setting1">
-						<!-- <input type="range" min="01" max="50" value="20" id="myRange1" onchange="setRadius(this)"> -->
-						<input class="form-check-input" type="radio" name="AgentChoice" value="SketchRNN-Art"> SketchRNN Artist Agent
-						<br/>
-						<input class="form-check-input" type="radio" name="AgentChoice" value="SketchRNN-QD"> SketchRNN Quick Draw Agent
-						<br/>
+						<input class="form-check-input" type="radio" name="AgentChoice" value="SketchRNN-Art"> SketchRNN Artist
+						Agent
+						<br />
+						<input class="form-check-input" type="radio" name="AgentChoice" value="SketchRNN-QD"> SketchRNN Quick Draw
+						Agent
+						<br />
 						<input class="form-check-input" type="radio" name="AgentChoice" value="Rule" checked> Rule Based Agent
-
-						<!-- <button onclick="colButtonClick1(this)" class="colorButton" id="red"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="green"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="blue"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="cyan"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="magenta"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="yellow"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton active" id="black"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="grey"></button>
-						<button onclick="colButtonClick1(this)" class="colorButton" id="white"></button> -->
 					</div>
+					<img onclick="clickPencil()" id="pencil" src="../static/image/pencil.png"/>
+					<h5 id="pencil-text">HOLD TO START DRAWING</h5>
+				</div>
+				<div id="clearButtonDiv">
 				</div>
 			</div>
-			<div class="col-lg-8">
+			<div class="col-lg-7">
 				<div id="canvas">
+				</div>
+			</div>
+			<div id="aiCol" class="col-lg-3">
+				<h2>NAME:</h2>
+				<h3>Dr. Drawctopus</h3>
+				<div id="bubble"></div>
+				<div id="octo">
+					<img src="../static/image/octo.png"/>
 				</div>
 			</div>
 		</div>
