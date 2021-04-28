@@ -119,20 +119,113 @@ function draw() {
 		textSize(24);
 		fill(0);
 		strokeWeight(0);
-		console.log(transformation);
-		// txtIntroOptions=['How about if we ','What if I ','Let me take what you did and ',"I see what you did there. Let me "];
-		// txtIntro = txtIntroOptions[Math.floor(Math.random()*txtIntroOptions.length)];
-		if (['rotate','shift','reflect','scale'].includes(transformation)) {
-			// txtStr=txtIntro + transformation + ' it.';
-		}
-		else if (transformation == 'shadow') {
-			// txtStr="Let's try adding a shadow.";
-		}
-		else if (transformation == 'verthatch') {
-			// txtStr="How about some vertical hatching?"
-		} else {
-			txtStr = transformation + " " + usrAction
-		}
+		console.log('transformation=',transformation);
+    console.log('usrAction=',usrAction);
+
+    //sketch RNN based on quick draw
+    if (usrAction == "") {
+      options = ["Let me just add something to what you just drew.",
+              "I love that! Let me just extend what you did.",
+              "We're totally sympatico. I like this whole drawing together thing.",
+              "I'm basically the best octopus artist I know",
+              "That looks awesome! How about if I add this?",
+              "I've seen some doodles that used shapes kind of like this",
+              "If you're not loving the doodly style I'm using, just choose a different option on your next turn!",
+              "My training tells me this would fit well with what you drew.",
+              "I got this idea from all the sketches and doodles I've been looking at lately."];
+      txtStr=random.choice(txtOptions);
+    }
+
+    //sketch RNN based on abstract art
+  	else if (usrAction == "sketchRNN-Artist Selected"){
+  			//if (agent returns something){
+  				options = ["Based on what I've learned about shapes and lines in abstract art, I thought this would look good.",
+  				"The contours of some paintings I've seen looked something like this.",
+  				"OK so it doesn't look EXACTLY like an abstract painting, but these are sorts of shapes and lines I've seen in those paintings.",
+  				"I'm just gonna go crazy and try something here.",
+  				"I thought this would look AMAZING.",
+  				"Here's something I decided to add based on my training in abstract art.",
+  				"After looking at sooo many abstract paintings, I think I'm getting the hang of this whole art thing.",
+  				"Do you like the abstract drawing style I'm using? If not, just try another option! It won't hurt my feelings."];
+  			//}
+  			//else {
+  			//	options=["I like what you drew so much, I'm not going to add anything to it. Why don't you take another turn?",
+  			//						"I'm not really sure what to do next. I think you should take another turn"];
+  			//}
+  			txtStr = random.choice(txtOptions);
+  	}
+
+
+    //text responses for the rule based agent
+		else {
+  		txt1="";
+  		txt2="";
+  		if (usrAction == 'add_to_existing'){
+  			txt1="Looks like you added something to a shape that was already there. You're so creative!";
+
+  			if (transformation == 'enclose_updated') {
+  				txt2 = "I'm just gonna draw a big shape around that whole thing.";
+  			}
+  		}
+  		else if (usrAction == 'connect_existing'){
+  			txt1="I like how you connected those things together! ";
+  			if (transformation == 'enclose_updated') {
+  				txt2 = "You're really good at this whole art thing. I'll enclose them together to really emphasize that connection.";
+  			}
+  			else if (transformation == 'strengthen connection') {
+  				txt2 = "I'm gonna make that connection SO STRONG.";
+  			}
+  		}
+  		else if (usrAction == 'added_new_closed_object'){
+  			txt1="Based on the rules I learned from my very smart teachers, I think you drew a closed shape.";
+  			if (transformation == 'scale_in_place') {
+  				txt2 = "I haven't really learned how to draw something new yet, so I'll copy yours and just make it a different size.";
+  			}
+  			else if (transformation == 'divide closure') {
+  				txt2 = "I think I'll divide it up.";
+  			}
+  		}
+  		else if (usrAction == 'added_new_open_object'){
+  			txt1="My teachers taught me this is an open shape.";
+  			if (transformation == 'close shape') {
+  				txt2 = "I'll complete it to make it a closed shape. If I got that right, I'm going to feel super smart.";
+  			}
+  			else if (transformation == 'distort') {
+  				txt2 = "I can't come up with my own new ideas yet, but I can take what you drew and distort it.";
+  			}
+  		}
+  		else if (usrAction == 'added_new_complex_object'){
+  			txt1='That one is interesting and kind of complex.';
+  			if (transformation == 'shift') {
+  				txt2 = "I'm not really sure what to do with that, so I'll just draw the same thing over here.";
+  			}
+  			else if (transformation == 'enclose') {
+  				txt2 = "It looks really cool and I don't want to mess with it, so I'll just draw something around it.";
+  			}
+  		}
+
+  		else if (usrAction == 'added_new_object_and_existing'){
+  			txt1='My training tells me you added something new and also added to an existing shape.';
+  			txt2="That's so many things at once, I don't even know what to do. I'll just draw something around it.";
+  		}
+  		else if (usrAction == 'added_multiple_objects'){
+  			txt1='Whoa, you added several new things! You have so many good ideas.';
+  			if (transformation == 'enclose_updated') {
+  				txt2 = "Let me just draw something around this part.";
+  			}
+  			if (transformation == 'connect_components' | transformation == 'connect components') {
+  				txt2 = "I decided to connect them because, like, everything is connected, man.";
+  			}
+  		}
+  		txtStr = txt1 + " " + txt2;
+  		//any rule based conditions we haven't accounted for
+  		if (txt1 == "" | txt2 == "") {
+  			txtStr = "I don't even know what I'm doing right now, I'm just trying stuff out."
+  		}
+    }
+
+
+
 		txtDiv = createDiv(txtStr);
 		txtDiv.parent("canvas");
 		txtDiv.position(corner.x + 10, corner.y - 30);
