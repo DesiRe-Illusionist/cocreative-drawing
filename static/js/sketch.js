@@ -358,9 +358,21 @@ finishTurn = () => {
 	else if (selectedAgent == "SketchRNN-QD") {
 		console.log("you selected - ",selectedAgent);
 		sketchRNNStart();
+    playerTurn = false;
+    turnNum += 1;
+    if (txtDiv) {
+      txtDiv.remove();
+    }
+
 	}
 	else {
 		console.log("you selected - ",selectedAgent);
+    playerTurn = false;
+    turnNum += 1;
+    if (txtDiv) {
+      txtDiv.remove();
+    }
+
     let postData2 = {
 			"stroke" : curTurn
 		}
