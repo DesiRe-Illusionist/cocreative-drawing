@@ -268,8 +268,18 @@ finishTurn = () => {
 	}
 	else {
 		console.log("you selected - ",selectedAgent);
-		//Bhavika your agent logic will go here...
-		//the agent is called SketchRNN-Art
+
+
+    httpPost(
+			"http://127.0.0.1:5000/drawRNN",
+			"json",
+			postData,
+			(response) => {
+				console.log(response)
+				aiTurn = response.data;
+				transformation = response.transformation;
+				usrAction = response.usr_action
+			});
 	}
 }
 
