@@ -76,20 +76,23 @@
   opacity: 0;
 }
 
-h1 {
-  text-align: center;
+#title {
+  margin-top: 30px;
+  margin-bottom: 20px;
 
-  font-family: 'Rubik' !important;
-  font-style: bold;
+  font-family: Rubik;
+  font-style: normal;
   font-weight: bold;
-  font-size: 48px;
+  font-size: 36px;
+  /* identical to box height */
+  text-align: center;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 
   color: #615D5D;
 }
 
-h2 {
+.name-label {
   font-family: Rubik !important;
   font-style: normal;
   font-weight: bold;
@@ -101,7 +104,7 @@ h2 {
   color: #615D5D;
 }
 
-h3 {
+.name {
   font-family: Nunito !important;
   font-style: normal;
   font-weight: normal;
@@ -146,13 +149,23 @@ h3 {
 
 #aiCol #octo {
   position: absolute;
-  bottom: 0px;
+  bottom: 30px;
   left: 0px;
   width: 50%;
   height: 50%;
 }
 
+#octo img {
+  position: relative;
+}
+
+#octo .agent-selection {
+  position: relative;
+  width: 100%;
+}
+
 #pencil {
+  margin-top: 60px;
   width: 100%;
 }
 
@@ -198,4 +211,52 @@ canvas {
   position: relative;
   width: 100%;
   margin-top: 20px;
+}
+
+.prev {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+
+.next {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* Safari */
+  -ms-user-select: none;
+  /* IE 10 and IE 11 */
+  user-select: none;
+  /* Standard syntax */
+}
+
+.agent-selection-div {
+  margin-top: 10px;
+  position: relative;
+  width: 200%;
+
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 16px;
+
+  color: #303030;
+}
+
+.agent-selection {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  top: 0;
 }

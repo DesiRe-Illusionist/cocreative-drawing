@@ -275,11 +275,9 @@ function draw() {
         txtStr = options[Math.floor(Math.random()*options.length)];
       }
 
-      txtDiv = createDiv(txtStr);
-  		txtDiv.parent("canvas");
-  		txtDiv.position(corner.x + 10, corner.y - 30);
-  		txtDiv.style('font=size','24px');
-  		txtDiv.style('color','black');
+		txtDiv = createDiv(txtStr);
+		txtDiv.id('dialogue');
+		txtDiv.parent("#bubble");
       displayMsg = false;  
     }
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -345,12 +343,15 @@ function isInsideCanvas(x, y) {
 finishTurn = () => {
 	const radiobtns = document.querySelectorAll('input[name="AgentChoice"]');
   let selectedAgent;
-  for (const rb of radiobtns) {
-      if (rb.checked) {
-          selectedAgent = rb.value;
-          break;
-      }
-  }
+  // for (const rb of radiobtns) {
+  //     if (rb.checked) {
+  //         selectedAgent = rb.value;
+  //         break;
+  //     }
+  // }
+  var currentSlide = $('.agent-selection').slick('slickCurrentSlide');
+  let agents = ['Rule', 'SketchRNN-Art', 'SketchRNN-QD'];
+	selectedAgent = agents[currentSlide];
 	if (selectedAgent == "Rule") {
 		console.log("you selected - ",selectedAgent);
 

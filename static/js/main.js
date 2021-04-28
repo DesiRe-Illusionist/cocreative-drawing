@@ -9,6 +9,17 @@
 //   setRadius('#myRange1');
 // }
 
+$(document).ready(function () {
+  $('.agent-selection').slick({
+    infinite: true,
+    slidesToShow: 1,
+    arrows: true,
+    prevArrow: $('.prev'),
+    nextArrow: $('.next')
+  });
+});
+
+
 clickPencil = () => {
   if (pencilPicked) {
     pencilPicked = false;
@@ -17,13 +28,13 @@ clickPencil = () => {
     $('canvas').css('cursor', 'not-allowed');
     finishTurn();
     // classifierDraw();
-  } else { 
+  } else {
     pencilPicked = true;
     $('#pencil').attr('src', '../static/image/slate.png');
     $('#pencil-text').html('CLICK TO END TURN');
     $('canvas').css('cursor', 'url(../static/image/user_cursor.png) 64 64, auto');
     $('#dialogue').css('display', 'none');
-  } 
+  }
 }
 
 setRadius = (item) => {
