@@ -36,14 +36,18 @@
       rmdir artifex /s
 
 •	Notes for running the latest version on Windows
-      •	Make sure you are using python version higher than 3.5
-      •	Make sure you have 64bit Python to check this make use of (the ouput should print fffff True)-
+
+  •	Make sure you are using python version higher than 3.5
+
+  •	Make sure you have 64bit Python to check this make use of (the ouput should print fffff True)-
 
       import sys;print("%x" % sys.maxsize, sys.maxsize > 2**32)
 
-      •	If you are getting file path errors make sure you follow the following tutorial-
+  •	If you are getting file path errors make sure you follow the following tutorial-
       https://www.howtogeek.com/266621/how-to-make-windows-10-accept-file-paths-over-260-characters/
-      •	In the requirements.txt delete the following before installing the libraries from requirements.txt - tensor2tensor==1.15.7
-      •	After installing the libraries use the following command to install tensor2tensor
+
+  •	In the requirements.txt delete the following before installing the libraries from requirements.txt - tensor2tensor==1.15.7
+
+  •	After installing the libraries use the following command to install tensor2tensor
 
       pip install --no-deps tensor2tensor
