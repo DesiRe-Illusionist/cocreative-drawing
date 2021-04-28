@@ -35,6 +35,9 @@
 
       rmdir artifex /s
 
+
+
+
 Notes for running the latest version on Windows-
 
   •	Make sure you are using python version higher than 3.5
