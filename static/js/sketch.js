@@ -10,6 +10,9 @@ let prevCanvasBase64;
 let curCanvasBase64;
 let sessionId;
 
+let transformation;
+let usrAction;
+
 //################################################
 //################################################
 //SketchRNN-
@@ -22,6 +25,7 @@ let seedPoints = [];
 let personDrawing = false;
 let RNN_AiStroke;
 let RNN_ctr =0;
+let displayMsg = false;
 
 
 function preload() {
@@ -122,22 +126,23 @@ function draw() {
 		console.log('transformation=',transformation);
     console.log('usrAction=',usrAction);
 
-    //sketch RNN based on quick draw
-    if (usrAction == "") {
-      options = ["Let me just add something to what you just drew.",
-              "I love that! Let me just extend what you did.",
-              "We're totally sympatico. I like this whole drawing together thing.",
-              "I'm basically the best octopus artist I know",
-              "That looks awesome! How about if I add this?",
-              "I've seen some doodles that used shapes kind of like this",
-              "If you're not loving the doodly style I'm using, just choose a different option on your next turn!",
-              "My training tells me this would fit well with what you drew.",
-              "I got this idea from all the sketches and doodles I've been looking at lately."];
-      txtStr = options[Math.floor(Math.random()*options.length)];
-    }
+    //***code shifted to line 254 to 280
+    // //sketch RNN based on quick draw-
+    // if (usrAction == "sketchRNN-QD Selected") {
+    //   options = ["Let me just add something to what you just drew.",
+    //           "I love that! Let me just extend what you did.",
+    //           "We're totally sympatico. I like this whole drawing together thing.",
+    //           "I'm basically the best octopus artist I know",
+    //           "That looks awesome! How about if I add this?",
+    //           "I've seen some doodles that used shapes kind of like this",
+    //           "If you're not loving the doodly style I'm using, just choose a different option on your next turn!",
+    //           "My training tells me this would fit well with what you drew.",
+    //           "I got this idea from all the sketches and doodles I've been looking at lately."];
+    //   txtStr = options[Math.floor(Math.random()*options.length)];
+    // }
 
     //sketch RNN based on abstract art
-  	else if (usrAction == "sketchRNN-Artist Selected"){
+  	if (usrAction == "sketchRNN-Artist Selected"){
   			//if (agent returns something){
   				options = ["Based on what I've learned about shapes and lines in abstract art, I thought this would look good.",
   				"The contours of some paintings I've seen looked something like this.",
@@ -248,6 +253,36 @@ function draw() {
 	 }
 
 	if (currentStroke) {
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //text feeddback
+    //sketch RNN based on quick draw
+    if (displayMsg == true) {
+      console.log('transformation=',transformation);
+      console.log('usrAction=',usrAction);
+
+      if (usrAction == "sketchRNN-QD Selected") {
+        options = ["Let me just add something to what you just drew.",
+                "I love that! Let me just extend what you did.",
+                "We're totally sympatico. I like this whole drawing together thing.",
+                "I'm basically the best octopus artist I know",
+                "That looks awesome! How about if I add this?",
+                "I've seen some doodles that used shapes kind of like this",
+                "If you're not loving the doodly style I'm using, just choose a different option on your next turn!",
+                "My training tells me this would fit well with what you drew.",
+                "I got this idea from all the sketches and doodles I've been looking at lately."];
+        txtStr = options[Math.floor(Math.random()*options.length)];
+      }
+
+      txtDiv = createDiv(txtStr);
+  		txtDiv.parent("canvas");
+  		txtDiv.position(corner.x + 10, corner.y - 30);
+  		txtDiv.style('font=size','24px');
+  		txtDiv.style('color','black');
+      displayMsg = false;  
+    }
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+    //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 		stroke(agentSetting.col);
 	  strokeWeight(agentSetting.size);
     noFill();
@@ -357,13 +392,16 @@ finishTurn = () => {
 	}
 	else if (selectedAgent == "SketchRNN-QD") {
 		console.log("you selected - ",selectedAgent);
-		sketchRNNStart();
+    displayMsg = true;
     playerTurn = false;
     turnNum += 1;
     if (txtDiv) {
       txtDiv.remove();
     }
 
+    transformation = "sketchRNN-QD invoked";
+    usrAction = "sketchRNN-QD Selected";
+    sketchRNNStart();
 	}
 	else {
 		console.log("you selected - ",selectedAgent);
@@ -417,6 +455,9 @@ function stopDrawing() {
 
 function sketchRNNStart() {
   personDrawing = false;
+  // transformation = "sketchRNN-QD invoked";
+  // usrAction = "sketchRNN-QD Selected";
+  // console.log("inside sketchRNNStart!",transformation, usrAction);
 
   // Perform RDP Line Simplication
   const rdpPoints = [];
