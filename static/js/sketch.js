@@ -133,7 +133,7 @@ function draw() {
               "If you're not loving the doodly style I'm using, just choose a different option on your next turn!",
               "My training tells me this would fit well with what you drew.",
               "I got this idea from all the sketches and doodles I've been looking at lately."];
-      txtStr=random.choice(txtOptions);
+      txtStr = options[Math.floor(Math.random()*options.length)];
     }
 
     //sketch RNN based on abstract art
@@ -152,7 +152,7 @@ function draw() {
   			//	options=["I like what you drew so much, I'm not going to add anything to it. Why don't you take another turn?",
   			//						"I'm not really sure what to do next. I think you should take another turn"];
   			//}
-  			txtStr = random.choice(txtOptions);
+  			txtStr = options[Math.floor(Math.random()*options.length)];
   	}
 
 
