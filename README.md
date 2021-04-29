@@ -9,9 +9,13 @@
 
 •	note- "artifex" is the name of the environment, so you can use whatever name you want.
 
-•	Activate the virtual environment with the following-
+•	Activate the virtual environment with the following (Windows)-
 
       artifex\Scripts\activate.bat
+
+•	Activate the virtual environment with the following (Mac)-
+
+      source artifex/bin/activate
 
 •	Install the libraries with the following-
 
