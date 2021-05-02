@@ -279,7 +279,7 @@ function draw() {
 		txtDiv = createDiv(txtStr);
 		txtDiv.id('dialogue');
 		txtDiv.parent("#bubble");
-      displayMsg = false;  
+      displayMsg = false;
     }
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
     //$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
@@ -381,9 +381,10 @@ finishTurn = () => {
 
 		// http://127.0.0.1:5000/draw
 		// "https://artifex-backend.herokuapp.com/draw"
+    //"https://drawcto.herokuapp.com/draw"
 
 		httpPost(
-			"http://127.0.0.1:5000/draw",
+			"https://drawcto.herokuapp.com/draw",
 			"json",
 			postData,
 			(response) => {
