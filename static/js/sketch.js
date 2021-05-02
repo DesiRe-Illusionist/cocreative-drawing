@@ -382,6 +382,8 @@ finishTurn = () => {
 		// http://127.0.0.1:5000/draw
 		// "https://artifex-backend.herokuapp.com/draw"
     //"https://drawcto.herokuapp.com/draw"
+    //"http://127.0.0.1:5000/drawRNN"
+    //"https://drawcto.herokuapp.com/drawRNN"
 
 		httpPost(
 			"https://drawcto.herokuapp.com/draw",
@@ -420,7 +422,7 @@ finishTurn = () => {
 			"stroke" : curTurn
 		}
     httpPost(
-			"http://127.0.0.1:5000/drawRNN",
+			"https://drawcto.herokuapp.com/drawRNN",
 			"json",
 			postData2,
 			(response) => {
