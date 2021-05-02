@@ -378,9 +378,11 @@ finishTurn = () => {
 		}
 
 		console.log("postData",postData);
+    //older website
+    // "https://artifex-backend.herokuapp.com/draw"
 
-		// http://127.0.0.1:5000/draw
-		// "https://artifex-backend.herokuapp.com/draw"
+    //new website
+    // http://127.0.0.1:5000/draw
     //"https://drawcto.herokuapp.com/draw"
     //"http://127.0.0.1:5000/drawRNN"
     //"https://drawcto.herokuapp.com/drawRNN"
