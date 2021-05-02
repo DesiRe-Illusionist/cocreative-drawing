@@ -388,7 +388,7 @@ finishTurn = () => {
     //"https://drawcto.herokuapp.com/drawRNN"
 
 		httpPost(
-			"https://drawcto.herokuapp.com/draw",
+			"http://127.0.0.1:5000/draw",
 			"json",
 			postData,
 			(response) => {
@@ -424,7 +424,7 @@ finishTurn = () => {
 			"stroke" : curTurn
 		}
     httpPost(
-			"https://drawcto.herokuapp.com/drawRNN",
+			"http://127.0.0.1:5000/drawRNN",
 			"json",
 			postData2,
 			(response) => {
